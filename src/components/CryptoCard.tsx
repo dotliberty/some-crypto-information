@@ -34,7 +34,7 @@ function CryptoCard({
 
             <div className="text-right">
                 <p className="font-semibold text-gray-800">${formattedPrice}</p>
-                <p className={`text-sm font-medium text-${isPositive ? 'green' : 'red'}-500`}>
+                <p className={`text-sm font-medium ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
                     {formattedChange}
                 </p>
             </div>
