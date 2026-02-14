@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import CryptoCard from "../components/CryptoCard";
 import { type Coin } from "../types/crypto";
 
@@ -38,6 +40,30 @@ const mockCoins: Coin[] = [
 ]
 
 function Home() {
+    const [coins, setCoins] = useState<Coin[]>(mockCoins)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [error, setError] = useState<string | null>(null)
+
+    function simulateLoading() {
+        setIsLoading(true)
+        setCoins([])
+
+        setTimeout(() => {
+            setIsLoading(false)
+            setCoins(mockCoins)
+        }, 2000)
+    }
+
+    function simulateError() {
+        setError('Loading data is failed. Check connect to internet')
+        setCoins([])
+    }
+
+    function clearError() {
+        setError(null)
+        setCoins(mockCoins)
+    }
+
     return (
         <div className="min-h-screen bg-gray-100">
             <div className="max-w-4xl mx-auto px-6 py-10">
@@ -48,6 +74,29 @@ function Home() {
                 <p className="text-gray-500 mb-8">
                     The most popular coins at this moment
                 </p>
+
+                <div className="flex gap-3 mb-8">
+                    <button
+                        onClick={simulateLoading}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors"
+                    >
+                        Simul loading
+                    </button>
+                    <button
+                        onClick={simulateError}
+                        className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors"
+                    >
+                        Simul error
+                    </button>
+                    {error && (
+                        <button
+                            onClick={clearError}
+                            className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors"
+                        >
+                            Clear
+                        </button>
+                    )}
+                </div>
 
                 <div className="flex flex-col gap-4">
                     <CryptoCard
