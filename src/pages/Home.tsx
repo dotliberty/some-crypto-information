@@ -78,13 +78,13 @@ function Home() {
                 <div className="flex gap-3 mb-8">
                     <button
                         onClick={simulateLoading}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors"
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors"
                     >
                         Simul loading
                     </button>
                     <button
                         onClick={simulateError}
-                        className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors"
+                        className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700 transition-colors"
                     >
                         Simul error
                     </button>
@@ -98,35 +98,43 @@ function Home() {
                     )}
                 </div>
 
-                <div className="flex flex-col gap-4">
-                    <CryptoCard
-                        id={mockCoins[0].id}
-                        name={mockCoins[0].name}
-                        symbol={mockCoins[0].symbol}
-                        price={mockCoins[0].current_price}
-                        changePercent={mockCoins[0].price_change_percentage_24h}
-                        imageUrl={mockCoins[0].image}
-                        rank={mockCoins[0].market_cap_rank}
-                    />
-                    <CryptoCard
-                        id={mockCoins[1].id}
-                        name={mockCoins[1].name}
-                        symbol={mockCoins[1].symbol}
-                        price={mockCoins[1].current_price}
-                        changePercent={mockCoins[1].price_change_percentage_24h}
-                        imageUrl={mockCoins[1].image}
-                        rank={mockCoins[1].market_cap_rank}
-                    />
-                    <CryptoCard
-                        id={mockCoins[2].id}
-                        name={mockCoins[2].name}
-                        symbol={mockCoins[2].symbol}
-                        price={mockCoins[2].current_price}
-                        changePercent={mockCoins[2].price_change_percentage_24h}
-                        imageUrl={mockCoins[2].image}
-                        rank={mockCoins[2].market_cap_rank}
-                    />
-                </div>
+                {error && (
+                    <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-center">
+                        <p className="text-4xl mb-3">⚠️</p>
+                        <p className="text-red-700 font-medium">{error}</p>
+                    </div>
+                )}
+
+                {isLoading && (
+                    <div className="flex flex-col items-center justify-center py-20">
+                        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4" />
+                        <p className="text-gray-500 italic">Data is loading...</p>
+                    </div>
+                )}
+
+                {!isLoading && !error && coins.length === 0 && (
+                    <div className="text-center py-20">
+                        <p className="text-gray-400 text-lg">Coins are not founded</p>
+                    </div>
+                )}
+
+                {!isLoading && !error && coins.length > 0 && (
+                    <div className="flex flex-col gap-4">
+                        {coins.map((coin) => (
+                            <CryptoCard
+                                key={coin.id}
+                                id={coin.id}
+                                name={coin.name}
+                                symbol={coin.symbol}
+                                price={coin.current_price}
+                                changePercent={coin.price_change_percentage_24h}
+                                imageUrl={coin.image}
+                                rank={coin.market_cap_rank}
+                            />
+                        ))}
+                    </div>
+                )}
+
             </div>
         </div>
     )
